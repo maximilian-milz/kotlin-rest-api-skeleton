@@ -37,6 +37,15 @@ dependencies {
     implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0")
     implementation("org.springframework.boot:spring-boot-starter-cache")
 
+    // Caching
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.8.0")
+
     // Database dependencies
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.flywaydb:flyway-core")
