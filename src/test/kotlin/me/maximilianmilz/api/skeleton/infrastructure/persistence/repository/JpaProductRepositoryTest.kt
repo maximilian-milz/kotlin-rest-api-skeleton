@@ -8,14 +8,38 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.LocalDateTime
-import java.util.*
 
 @DataJpaTest
+@Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(JpaProductRepository::class)
 @ActiveProfiles("test")
 class JpaProductRepositoryTest {
+
+    companion object {
+        @Container
+        private val postgresContainer = PostgreSQLContainer<Nothing>("postgres:15-alpine").apply {
+            withDatabaseName("testdb")
+            withUsername("testuser")
+            withPassword("testpassword")
+        }
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun properties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.datasource.url", postgresContainer::getJdbcUrl)
+            registry.add("spring.datasource.username", postgresContainer::getUsername)
+            registry.add("spring.datasource.password", postgresContainer::getPassword)
+            registry.add("spring.datasource.driver-class-name") { "org.postgresql.Driver" }
+            registry.add("spring.jpa.hibernate.ddl-auto") { "create-drop" }
+        }
+    }
 
     @Autowired
     private lateinit var jpaProductRepository: JpaProductRepository
