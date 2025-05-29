@@ -70,10 +70,11 @@ logging:
 
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /v3/api-docs
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger-ui/index.html
     operationsSorter: method
     tagsSorter: alpha
     tryItOutEnabled: true
     filter: true
+    use-root-path: true
