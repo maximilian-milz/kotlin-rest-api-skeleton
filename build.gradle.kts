@@ -26,6 +26,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0")
 
+    // Rate limiting dependencies
+    implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+
     // Database dependencies
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.flywaydb:flyway-core")
