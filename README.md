@@ -85,11 +85,27 @@ src
    ```
 
 2. Start the application:
+
+   Without Docker containers:
    ```
    ./gradlew bootRun
    ```
 
-3. The application is now available at `http://localhost:8080`.
+   With Docker containers (requires Docker and docker-compose):
+   ```
+   ./gradlew bootRun -Plocal
+   ```
+
+   The `-Plocal` flag:
+   - Activates the 'local' Gradle property, which automatically starts the required Docker containers before running the application
+   - Sets the Spring 'local' profile, which activates specific configurations in application-local.yml for local development
+
+3. To stop Docker containers when you're done:
+   ```
+   ./gradlew stopDockerContainers -Plocal
+   ```
+
+4. The application is now available at `http://localhost:8080`.
 
 ### API Documentation
 

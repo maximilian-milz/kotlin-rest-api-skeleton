@@ -77,6 +77,11 @@ tasks.register<Exec>("dockerComposeUp") {
     group = "docker"
     description = "Starts Docker containers using docker-compose"
 
+    // Only execute when 'local' profile is active
+    onlyIf {
+        project.hasProperty("local")
+    }
+
     commandLine("docker-compose", "up", "-d")
 
     // Wait for the database to be ready
@@ -119,6 +124,11 @@ tasks.register<Exec>("dockerComposeDown") {
     group = "docker"
     description = "Stops Docker containers using docker-compose"
 
+    // Only execute when 'local' profile is active
+    onlyIf {
+        project.hasProperty("local")
+    }
+
     commandLine("docker-compose", "down")
 
     doLast {
@@ -128,14 +138,24 @@ tasks.register<Exec>("dockerComposeDown") {
 
 // Make bootRun depend on dockerComposeUp to start Docker containers before the application
 tasks.named("bootRun") {
-    dependsOn("dockerComposeUp")
+    // Only depend on dockerComposeUp when 'local' profile is active
+    if (project.hasProperty("local")) {
+        dependsOn("dockerComposeUp")
 
-    doFirst {
-        println("Starting application with Docker containers...")
-    }
+        // Set Spring profile to 'local' when the 'local' Gradle property is set
+        (this as JavaExec).systemProperty("spring.profiles.active", "local")
 
-    doLast {
-        println("Application started. To stop Docker containers when done, run './gradlew dockerComposeDown'")
+        doFirst {
+            println("Starting application with Docker containers and 'local' Spring profile...")
+        }
+
+        doLast {
+            println("Application started. To stop Docker containers when done, run './gradlew dockerComposeDown'")
+        }
+    } else {
+        doFirst {
+            println("Starting application without Docker containers (use -Plocal to start with Docker)...")
+        }
     }
 }
 
@@ -144,5 +164,12 @@ tasks.register("stopDockerContainers") {
     group = "application"
     description = "Stops Docker containers"
 
-    dependsOn("dockerComposeDown")
+    // Only depend on dockerComposeDown when 'local' profile is active
+    if (project.hasProperty("local")) {
+        dependsOn("dockerComposeDown")
+    } else {
+        doLast {
+            println("No Docker containers to stop (use -Plocal to enable Docker features)")
+        }
+    }
 }
