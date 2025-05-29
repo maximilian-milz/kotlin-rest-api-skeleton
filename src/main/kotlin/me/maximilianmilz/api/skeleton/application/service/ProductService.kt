@@ -1,7 +1,5 @@
 package me.maximilianmilz.api.skeleton.application.service
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.maximilianmilz.api.skeleton.domain.model.Product
 import me.maximilianmilz.api.skeleton.domain.repository.ProductRepository
 import org.springframework.cache.annotation.CacheEvict
@@ -12,49 +10,49 @@ import java.util.UUID
 
 /**
  * Service for handling product-related business logic.
- * Implements caching and asynchronous processing with Kotlin Coroutines.
+ * Implements caching.
  */
 @Service
 class ProductService(private val productRepository: ProductRepository) {
 
     /**
      * Get all products.
-     * This operation is cached and executed asynchronously.
+     * This operation is cached.
      *
      * @return List of all products
      */
     @Cacheable(value = ["products"])
-    suspend fun getAllProducts(): List<Product> = withContext(Dispatchers.IO) {
-        productRepository.findAll()
+    fun getAllProducts(): List<Product> {
+        return productRepository.findAll()
     }
 
     /**
      * Get a product by its ID.
-     * This operation is cached and executed asynchronously.
+     * This operation is cached.
      *
      * @param id The product ID
      * @return The product if found, null otherwise
      */
     @Cacheable(value = ["products"], key = "#id")
-    suspend fun getProductById(id: UUID): Product? = withContext(Dispatchers.IO) {
-        productRepository.findById(id)
+    fun getProductById(id: UUID): Product? {
+        return productRepository.findById(id)
     }
 
     /**
      * Create a new product.
-     * This operation is executed asynchronously and evicts the products cache.
+     * This operation evicts the products cache.
      *
      * @param product The product to create
      * @return The created product
      */
     @CacheEvict(value = ["products"], allEntries = true)
-    suspend fun createProduct(product: Product): Product = withContext(Dispatchers.IO) {
-        productRepository.save(product)
+    fun createProduct(product: Product): Product {
+        return productRepository.save(product)
     }
 
     /**
      * Update an existing product.
-     * This operation is executed asynchronously and evicts both the all products cache
+     * This operation evicts both the all products cache
      * and the specific product cache entry.
      *
      * @param id The product ID
@@ -65,18 +63,18 @@ class ProductService(private val productRepository: ProductRepository) {
         CacheEvict(value = ["products"], allEntries = true),
         CacheEvict(value = ["products"], key = "#id")
     ])
-    suspend fun updateProduct(id: UUID, product: Product): Product? = withContext(Dispatchers.IO) {
-        val existingProduct = productRepository.findById(id) ?: return@withContext null
+    fun updateProduct(id: UUID, product: Product): Product? {
+        val existingProduct = productRepository.findById(id) ?: return null
         val updatedProduct = product.copy(
             id = existingProduct.id,
             createdAt = existingProduct.createdAt
         )
-        productRepository.save(updatedProduct)
+        return productRepository.save(updatedProduct)
     }
 
     /**
      * Delete a product by its ID.
-     * This operation is executed asynchronously and evicts both the all products cache
+     * This operation evicts both the all products cache
      * and the specific product cache entry.
      *
      * @param id The product ID
@@ -86,7 +84,7 @@ class ProductService(private val productRepository: ProductRepository) {
         CacheEvict(value = ["products"], allEntries = true),
         CacheEvict(value = ["products"], key = "#id")
     ])
-    suspend fun deleteProduct(id: UUID): Boolean = withContext(Dispatchers.IO) {
-        productRepository.deleteById(id)
+    fun deleteProduct(id: UUID): Boolean {
+        return productRepository.deleteById(id)
     }
 }
