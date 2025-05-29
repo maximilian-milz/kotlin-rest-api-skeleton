@@ -1,31 +1,6 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.app
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      zipkin:
-        condition: service_healthy
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/skeleton_db
-      - SPRING_DATASOURCE_USERNAME=skeleton_user
-      - SPRING_DATASOURCE_PASSWORD=skeleton_password
-      - SPRING_ZIPKIN_BASE_URL=http://zipkin:9411
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
   postgres:
     build:
       context: .

@@ -69,60 +69,12 @@ src
 - SpringDoc OpenAPI For API documentation
 - JUnit 5: For testing
 
-## CI/CD Pipeline
-
-This project includes a CI/CD pipeline implemented with GitHub Actions. The pipeline automates building, testing and deploying the application.
-
-### Pipeline Structure
-
-The CI/CD pipeline consists of three main jobs:
-
-1. **Build and Test**: Builds the application and runs tests
-   - Sets up JDK 21
-   - Builds with Gradle
-   - Runs tests
-   - Uploads test reports and build artifacts
-
-2. **Build Docker Images**: Builds and pushes Docker images to Docker Hub
-   - Only runs on pushes to the main branch
-   - Builds and pushes both the application and database Docker images
-   - Uses Docker Hub credentials stored as GitHub secrets
-
-3. **Deploy**: Deploys the application
-   - Only runs on pushes to the main branch
-   - Currently configured as a placeholder
-   - Can be customized based on your deployment target
-
-### Configuration
-
-To use the CI/CD pipeline, you need to configure the following GitHub secrets:
-
-- `DOCKER_HUB_USERNAME`: Your Docker Hub username
-- `DOCKER_HUB_TOKEN`: Your Docker Hub access token
-
-For deployment, you may need to configure additional secrets depending on your deployment target:
-
-- `SERVER_HOST`: The host of your deployment server
-- `SERVER_USERNAME`: The username for SSH access
-- `SERVER_SSH_KEY`: The SSH private key for authentication
-
-### Running with Docker
-
-You can also run the application locally using Docker Compose:
-
-```bash
-docker-compose up -d
-```
-
-This will start the application, PostgreSQL database and Zipkin for distributed tracing.
-
 ## Getting Started
 
 ### Prerequisites
 
 - JDK 21 or higher
 - Gradle (or use the included Gradle Wrapper)
-- Docker and Docker Compose (optional, for containerized deployment)
 
 ### Starting the Application
 
