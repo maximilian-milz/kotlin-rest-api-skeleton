@@ -1,10 +1,10 @@
-# Test database configuration
+# Test configuration with H2 in-memory database
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/skeleton_db
-    username: skeleton_user
-    password: skeleton_password
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
 
   # JPA/Hibernate configuration for tests
   jpa:
@@ -12,10 +12,19 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
         format_sql: false
     show-sql: false
 
   # Flyway configuration for tests
   flyway:
+    enabled: false
+
+  # Disable Zipkin for tests
+  zipkin:
+    enabled: false
+
+# Disable tracing for tests
+management:
+  tracing:
     enabled: false

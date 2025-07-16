@@ -25,14 +25,14 @@ class OpenApiConfig {
 
     private fun apiInfo(): Info {
         return Info()
-            .title("Product API")
-            .description("REST API for managing products")
+            .title("Kotlin REST API Skeleton")
+            .description("REST API example")
             .version("v1.0.0")
             .contact(
                 Contact()
                     .name("Maximilian Milz")
-                    .url("https://github.com/maximilianmilz")
-                    .email("contact@maximilianmilz.me")
+                    .url("https://maximilian-milz.me")
+                    .email("contact@maximilian-milz.me")
             )
             .license(
                 License()
