@@ -15,13 +15,11 @@ import org.springframework.context.annotation.Configuration
 class OpenApiConfig {
 
     @Bean
-    fun openAPI(): OpenAPI {
-        return OpenAPI()
-            .info(apiInfo())
-            .servers(listOf(
-                Server().url("/").description("Default Server URL")
-            ))
-    }
+    fun openAPI(): OpenAPI = OpenAPI()
+        .info(apiInfo())
+        .servers(listOf(
+            Server().url("/").description("Default Server URL")
+        ))
 
     private fun apiInfo(): Info {
         return Info()

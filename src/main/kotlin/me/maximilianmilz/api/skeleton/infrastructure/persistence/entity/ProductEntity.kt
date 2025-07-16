@@ -34,30 +34,28 @@ class ProductEntity(
     /**
      * Convert entity to domain model.
      */
-    fun toDomain(): Product {
-        return Product(
-            id = id,
-            name = name,
-            description = description,
-            price = price,
-            createdAt = createdAt,
-            updatedAt = updatedAt
-        )
-    }
+    fun toDomain(): Product = Product(
+        id = id,
+        name = name,
+        description = description,
+        price = price,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+
 
     companion object {
         /**
-         * Create entity from domain model.
+         * Create entity from a domain model.
          */
-        fun fromDomain(product: Product): ProductEntity {
-            return ProductEntity(
-                id = product.id,
-                name = product.name,
-                description = product.description,
-                price = product.price,
-                createdAt = product.createdAt,
-                updatedAt = product.updatedAt
-            )
-        }
+        fun fromDomain(product: Product): ProductEntity = ProductEntity(
+            id = product.id,
+            name = product.name,
+            description = product.description,
+            price = product.price,
+            createdAt = product.createdAt,
+            updatedAt = product.updatedAt
+        )
+
     }
 }

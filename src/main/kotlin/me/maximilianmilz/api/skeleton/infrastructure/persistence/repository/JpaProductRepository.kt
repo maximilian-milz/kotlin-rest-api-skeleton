@@ -19,9 +19,7 @@ class JpaProductRepository(private val productJpaRepository: ProductJpaRepositor
      *
      * @return List of all products
      */
-    override fun findAll(): List<Product> {
-        return productJpaRepository.findAll().map { it.toDomain() }
-    }
+    override fun findAll(): List<Product> = productJpaRepository.findAll().map { it.toDomain() }
 
     /**
      * Find a product by its ID.
@@ -29,9 +27,7 @@ class JpaProductRepository(private val productJpaRepository: ProductJpaRepositor
      * @param id The product ID
      * @return The product if found, null otherwise
      */
-    override fun findById(id: UUID): Product? {
-        return productJpaRepository.findById(id).map { it.toDomain() }.orElse(null)
-    }
+    override fun findById(id: UUID): Product? = productJpaRepository.findById(id).map { it.toDomain() }.orElse(null)
 
     /**
      * Save a product.

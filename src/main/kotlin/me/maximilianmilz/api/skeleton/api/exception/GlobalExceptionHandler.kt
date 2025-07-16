@@ -27,7 +27,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponseDto(
             status = HttpStatus.NOT_FOUND.value(),
             error = HttpStatus.NOT_FOUND.reasonPhrase,
-            message = ex.message ?: "Resource not found",
+            message = ex.message,
             path = request.getDescription(false).substringAfter("uri=")
         )
         return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
