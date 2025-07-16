@@ -54,7 +54,7 @@ class TracingAspect(private val meterRegistry: MeterRegistry) {
                 .register(meterRegistry)
                 .record(executionTime, TimeUnit.NANOSECONDS)
 
-            return@onSuccess result as Unit
+            return result
         }.onFailure { e ->
             // Record the exception as a metric
             meterRegistry.counter(
